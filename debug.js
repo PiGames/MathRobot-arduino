@@ -146,6 +146,8 @@ board.on("ready", function() {
 
           case "t": {
             type = "XY";
+            x = 0;
+            y = 0;
 
             console.log( "You are now controlling XY" );
           }
