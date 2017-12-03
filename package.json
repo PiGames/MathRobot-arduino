@@ -6,7 +6,8 @@
   "scripts": {
     "start:dev": "RPI_URL=http://localhost:4201 nodemon --inspect src/index.js --exec babel-node",
     "start": "RPI_URL=http://localhost:4201 babel-node src/index.js",
-    "debug": "babel-node ./debug/index.js"
+    "debug": "babel-node ./debug/index.js",
+    "demo": "babel-node ./debug/demo.js"
   },
   "author": "",
   "license": "ISC",

@@ -19,9 +19,9 @@ export const setup = ( _stepperTop, _stepperBottom, _servo ) => {
 };
 
 const click = ( cb = () => {} ) => {
-  servo.to( 153 );
+  servo.to( 155 );
   setTimeout( () => {
-    servo.to( 121 );
+    servo.to( 130 );
 
     setTimeout( cb, 700 );
   }, 500 );
@@ -72,7 +72,6 @@ export const goToXY = ( x, y, cb = () => {} ) => {
 
 export const clickOnXY = ( x, y, cb ) => {
   goToXY( x, y, () => {
-    console.log( 123 );
     click( cb );
   } );
 };
