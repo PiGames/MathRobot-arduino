@@ -2,10 +2,6 @@ module.exports = {
   opts: {
     type: 4,
     stepsPerRev: 48,
-    rpm: 20000,
+    rpm: 15000,
   },
-
-  motionOpts: {
-    steps: 2000,
-  }
 }
