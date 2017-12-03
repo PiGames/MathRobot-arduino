@@ -1,1 +1,1 @@
-export const rpi = require( 'socket.io-client' ).connect( 'http://localhost:4201' );
+export const rpi = require( 'socket.io-client' ).connect( process.env.RPI_URL );

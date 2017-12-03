@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon --inspect src/index.js --exec babel-node",
-    "start": "babel-node src/index.js"
+    "start:dev": "RPI_URL=http://localhost:4201 nodemon --inspect src/index.js --exec babel-node",
+    "start": "RPI_URL=http://localhost:4201 babel-node src/index.js"
   },
   "author": "",
   "license": "ISC",
