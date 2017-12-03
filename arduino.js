@@ -1,11 +1,9 @@
 const five = require("johnny-five");
 const board = new five.Board();
 
-const { opts, motionOpts } = require("./setup.js");
-const { loop, moveLeft, moveRight, click, moveToYMax, moveToYMin, moveToXMax, moveToXMin, unclick, clickDebug } = require("./motors.js")
+const { opts } = require("./setup.js");
 
-let current_level = "bottom";
-let i = 0;
+const { clickOnXY, setup } = require("./coordinates.js");
 
 board.on("ready", function() {
   const stepperTop = new five.Stepper({
@@ -20,68 +18,9 @@ board.on("ready", function() {
 
   const servo = new five.Servo(12);
 
-  process.stdin.on('keypress', (str, key) => {
-    if (key.ctrl && key.name === 'c') {
-      process.exit();
-    } else {
-      switch (key.name) {
-        case "up": {
-          moveRight( stepperTop );
+  setup( stepperTop, stepperBottom, servo );
 
-          break;
-        }
-
-        case "down": {
-          moveLeft( stepperTop );
-
-          break;
-        }
-
-        case "c": {
-          if ( key.shift ) {
-            unclick( servo );
-          } else {
-            click( servo );
-          }
-          break;
-        }
-
-        case "d": {
-          clickDebug( servo );
-          break;
-        }
-
-        case "right": {
-          if ( current_level === "top" ) {
-            moveRight( stepperTop );
-          } else if ( current_level === "bottom" ) {
-            moveRight( stepperBottom );
-            i++;
-          }
-          break;
-        }
-
-        case "left": {
-          if ( current_level === "top" ) {
-            moveLeft( stepperTop );
-          } else if ( current_level === "bottom" ) {
-            moveLeft( stepperBottom );
-          }
-          break;
-        }
-
-        case "b": {
-          stepperBottom.step({
-            steps: 100 * i,
-            direction: 0,
-          }, () => {});
-        }
-
-        default: {
-          console.log( key );
-        }
-      }
-    }
-  });
-
-});
+  clickOnXY( 20, 25, () => {
+    clickOnXY( 0, 0 );
+  } );
+} );
