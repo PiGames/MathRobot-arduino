@@ -21,52 +21,51 @@ export const setup = ( _stepperTop, _stepperBottom, _servo ) => {
 const click = ( cb = () => {} ) => {
   servo.to( 155 );
   setTimeout( () => {
-    servo.to( 130 );
+    servo.to( 121 );
 
     setTimeout( cb, 700 );
   }, 500 );
 };
 
-export const goToXY = ( x, y, cb = () => {} ) => {
+const goToX = ( x, cb ) => {
   const dx = x - lastX;
-  const dy = y - lastY;
   lastX = x;
-  lastY = y;
-  let xDone = false;
-  let yDone = false;
-
-  const callCallback = () => {
-    if ( xDone && yDone ) {
-      cb();
-    }
-  };
 
   if ( Math.abs( dx ) > 0 ) {
     stepperBottom.step( {
       steps: Math.abs( dx ) / xRange * maxX,
       direction: ( Math.sign( dx ) === 1 ) ? 1 : 0,
     }, () => {
-      xDone = true;
-      callCallback();
+      cb();
     } );
   } else {
-    xDone = true;
-    callCallback();
+    cb();
   }
+};
+
+const goToY = ( y, cb ) => {
+  const dy = y - lastY;
+  lastY = y;
 
   if ( Math.abs( dy ) > 0 ) {
     stepperTop.step( {
       steps: Math.abs( dy ) / yRange * maxY,
       direction: ( Math.sign( dy ) === 1 ) ? 0 : 1,
     }, () => {
-      yDone = true;
-      callCallback();
+      cb();
     } );
   } else {
-    yDone = true;
-    callCallback();
+    cb();
   }
 };
+
+export const goToXY = ( x, y, cb = () => {} ) => {
+  goToX( x, () => {
+    goToY( y, cb );
+  } );
+};
+
+
 
 /* (0,0) */
 
