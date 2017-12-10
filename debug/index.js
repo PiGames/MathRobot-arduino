@@ -9,6 +9,7 @@ let x = 0;
 let y = 0;
 let isFree = true;
 let type = 'XY';
+let stopLoop = false;
 
 board.on( 'ready', function() {
   const stepperTop = new five.Stepper( {
@@ -35,6 +36,20 @@ board.on( 'ready', function() {
     goToXY( x, y, () => {
       isFree = true;
     } );
+  };
+
+  const loop = () => {
+    if ( !stopLoop ) {
+      return goToXY( 150, 0, () => {
+        if ( !stopLoop ) {
+          return goToXY( 5, 0, loop );
+        } else {
+          stopLoop = false;
+        }
+      } );
+    } else {
+      stopLoop = false;
+    }
   };
 
   process.stdin.on( 'keypress', ( str, key ) => {
@@ -142,6 +157,15 @@ board.on( 'ready', function() {
 
         case 'd': {
           clickDebug( servo );
+          break;
+        }
+
+        case 'l': {
+          if ( !stopLoop ) {
+            loop();
+          } else {
+            stopLoop = true;
+          }
           break;
         }
 

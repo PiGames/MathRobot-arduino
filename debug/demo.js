@@ -18,15 +18,21 @@ board.on( 'ready', function() {
 
   const servo = new five.Servo( 12 );
 
-  setup( stepperTop, stepperBottom, servo );
-
-  clickOnXY( 50, 130, () => {
-    clickOnXY( 70, 130, () => {
-      clickOnXY( 50, 130, () => {
-        clickOnXY( 95, 150, () => {
-          goToXY( 0, 0 );
+  const go = () => {
+    clickOnXY( 50, 130, () => {
+      clickOnXY( 70, 130, () => {
+        clickOnXY( 50, 130, () => {
+          clickOnXY( 95, 150, () => {
+            goToXY( 0, 0, () => {
+              setTimeout( go, 1000 );
+            } );
+          } );
         } );
       } );
     } );
-  } );
+  };
+
+  setup( stepperTop, stepperBottom, servo );
+
+  go();
 } );

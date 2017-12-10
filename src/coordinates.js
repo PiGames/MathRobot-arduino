@@ -5,6 +5,8 @@ let servo;
 const maxX = 4800;
 const maxY = 7800;
 
+const IS_PARALEL_MOVEMENT_ALLOWED = false;
+
 const xRange = 100;
 const yRange = 150;
 /* X: 0-100 */
@@ -19,9 +21,9 @@ export const setup = ( _stepperTop, _stepperBottom, _servo ) => {
 };
 
 const click = ( cb = () => {} ) => {
-  servo.to( 155 );
+  servo.to( 123 );
   setTimeout( () => {
-    servo.to( 121 );
+    servo.to( 90 );
 
     setTimeout( cb, 700 );
   }, 500 );
@@ -34,7 +36,7 @@ const goToX = ( x, cb ) => {
   if ( Math.abs( dx ) > 0 ) {
     stepperBottom.step( {
       steps: Math.abs( dx ) / xRange * maxX,
-      direction: ( Math.sign( dx ) === 1 ) ? 1 : 0,
+      direction: ( Math.sign( dx ) === 1 ) ? 0 : 1,
     }, () => {
       cb();
     } );
@@ -50,7 +52,7 @@ const goToY = ( y, cb ) => {
   if ( Math.abs( dy ) > 0 ) {
     stepperTop.step( {
       steps: Math.abs( dy ) / yRange * maxY,
-      direction: ( Math.sign( dy ) === 1 ) ? 0 : 1,
+      direction: ( Math.sign( dy ) === 1 ) ? 1 : 0,
     }, () => {
       cb();
     } );
@@ -60,9 +62,25 @@ const goToY = ( y, cb ) => {
 };
 
 export const goToXY = ( x, y, cb = () => {} ) => {
-  goToX( x, () => {
-    goToY( y, cb );
-  } );
+  if ( IS_PARALEL_MOVEMENT_ALLOWED ) {
+    let isDone = false;
+
+    const callCb = () => {
+      if ( !isDone ) {
+        isDone = true;
+        return;
+      }
+
+      cb();
+    };
+
+    goToX( x, callCb );
+    goToY( y, callCb );
+  } else {
+    goToX( x, () => {
+      goToY( y, cb );
+    } );
+  }
 };
 
 
