@@ -2,7 +2,7 @@ import five from 'johnny-five';
 const board = new five.Board();
 import { opts } from '../src/setup.js';
 
-import { moveLeft, moveRight, click, unclick, clickDebug } from './debugUtils.js';
+import { moveLeft, moveRight, click, unclick, clickDebug, forceDebug } from './debugUtils.js';
 import { goToXY, setup } from '../src/coordinates.js';
 
 let x = 0;
@@ -113,6 +113,11 @@ board.on( 'ready', function() {
 
         case 'd': {
           clickDebug( servo );
+          break;
+        }
+
+        case 'f': {
+          forceDebug( servo );
           break;
         }
 
