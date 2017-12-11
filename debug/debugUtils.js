@@ -1,7 +1,6 @@
 const dummy = () => {};
 
 export const click = ( srv ) => {
-  console.log();
   srv.to( 119 );
 };
 
