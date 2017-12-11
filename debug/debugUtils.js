@@ -13,6 +13,10 @@ export const clickDebug = ( srv ) => {
   srv.to( 105 );
 };
 
+export const forceDebug = ( srv ) => {
+  srv.to( 121 );
+};
+
 export const moveRight = ( stpr ) => {
   stpr.step( {
     steps: 100,
